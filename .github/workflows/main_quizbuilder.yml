@@ -23,7 +23,6 @@ jobs:
 
       - name: npm install, build
         run: |
-          cd backend
           npm install
           npm run build
           # Важно: копируем package.json в папку сборки, чтобы Azure мог установить зависимости
@@ -33,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: backend/dist/
+          path: dist/
 
   deploy:
     runs-on: ubuntu-latest
