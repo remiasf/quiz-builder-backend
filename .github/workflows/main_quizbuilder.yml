@@ -14,7 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+      - name: List files
+        run: ls -R
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
