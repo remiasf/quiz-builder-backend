@@ -21,13 +21,14 @@ jobs:
         with:
           node-version: '24.x'
           cache: 'npm'
+      
 
       - name: npm install, build
         run: |
           npm ci
           npm run build
-          # Важно: копируем package.json в папку сборки, чтобы Azure мог установить зависимости
-          cp package.json dist/ 
+          cp package.json dist/
+          cp package-lock.json dist/
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
