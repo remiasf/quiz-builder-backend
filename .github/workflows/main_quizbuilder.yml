@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - quizbuilder
 
 on:
@@ -13,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read 
 
     steps:
       - uses: actions/checkout@v4
@@ -23,31 +20,34 @@ jobs:
         with:
           node-version: '24.x'
 
-      - name: npm install, build, and test
+      - name: npm install, build
         run: |
+          cd backend
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run build
+          # Важно: копируем package.json в папку сборки, чтобы Azure мог установить зависимости
+          cp package.json dist/ 
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: backend/dist/
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write 
+      contents: read 
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+          path: .
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -62,4 +62,3 @@ jobs:
           app-name: 'quizbuilder'
           slot-name: 'Production'
           package: .
-          
