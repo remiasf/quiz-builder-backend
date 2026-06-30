@@ -17,13 +17,14 @@ jobs:
       - name: List files
         run: ls -R
       - name: Set up Node.js version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '24.x'
+          cache: 'npm'
 
       - name: npm install, build
         run: |
-          npm install
+          npm ci
           npm run build
           # Важно: копируем package.json в папку сборки, чтобы Azure мог установить зависимости
           cp package.json dist/ 
