@@ -74,6 +74,7 @@ export class QuizzesService {
         id: quiz.id,
         title: quiz.title,
         numberOfQuestions: quiz.questions.length,
+        attemptsCount: quiz.attemptsCount,
       })),
     };
   }
